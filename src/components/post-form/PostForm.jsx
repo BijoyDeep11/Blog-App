@@ -19,33 +19,58 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
-        if (post) {
-            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+        // 1. Safety Check: User must be logged in
+        if (!userData) {
+            alert("Missing User Data! Please login again.");
+            return;
+        }
 
-            if (file) {
-                appwriteService.deleteFile(post.featuredImage);
-            }
+        try {
+            // CASE 1: UPDATING AN EXISTING POST
+            if (post) {
+                // Upload new file ONLY if the user selected one
+                const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
-            const dbPost = await appwriteService.updatePost(post.$id, {
-                ...data,
-                featuredImage: file ? file.$id : undefined,
-            });
+                // If new file uploaded, delete the old one
+                if (file) {
+                    appwriteService.deleteFile(post.featuredImage);
+                }
 
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`);
-            }
-        } else {
-            const file = await appwriteService.uploadFile(data.image[0]);
-
-            if (file) {
-                const fileId = file.$id;
-                data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                // Prepare update data
+                const dbPost = await appwriteService.updatePost(post.$id, {
+                    ...data,
+                    // If we have a new file, use its ID. Otherwise, keep the old image ID.
+                    featuredImage: file ? file.$id : undefined,
+                });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
+            } 
+            // CASE 2: CREATING A NEW POST
+            else {
+                // Upload file (Required for new posts)
+                const file = await appwriteService.uploadFile(data.image[0]);
+
+                if (file) {
+                    const fileId = file.$id;
+                    data.featuredImage = fileId;
+                    
+                    const dbPost = await appwriteService.createPost({ 
+                        ...data, 
+                        userId: userData.$id 
+                    });
+
+                    if (dbPost) {
+                        navigate(`/post/${dbPost.$id}`);
+                    }
+                } else {
+                    console.log("File upload failed"); // Debugging
+                }
             }
+        } catch (error) {
+            console.error("Error submitting post:", error);
+            alert("Error: " + error.message); // Show error to user
         }
     };
 
@@ -96,6 +121,7 @@ export default function PostForm({ post }) {
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
+                    // logic: required ONLY if creating a new post (!post is true)
                     {...register("image", { required: !post })}
                 />
                 {post && (
