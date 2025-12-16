@@ -1,34 +1,64 @@
 import React, { useId } from 'react'
 
 function Select({
-    options = [], // ✅ Fix 1: Default to empty array to prevent map error
+    options,
     label,
-    className = "",
+    className = "", // Allow custom classes
     ...props
-}, ref) { // ✅ Fix 2: 'ref' is the second argument, and props are destructured in the first
-
-    const id = useId() // Optional: Generates a unique ID for accessibility
-
-  return (
-    <div className='w-full'>
-        {label && <label htmlFor={id} className='block mb-2 text-sm font-medium text-gray-900'>{label}</label>}
-        
-        <select
-        {...props}
-        id={id}
-        ref={ref} // ✅ Fix 3: Connect the ref so react-hook-form works!
-        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
-        >
-            {/* ✅ Fix 4: Safely map over options */}
-            {options?.map((option) => (
-                <option key={option} value={option}>
-                    {option}
-                </option>
-            ))}
-
-        </select>
-    </div>
-  )
+}, ref) {
+    const id = useId()
+    return (
+        <div className='w-full'>
+            {label && (
+                <label 
+                    htmlFor={id} 
+                    className='block text-sm font-medium text-gray-700 mb-2 pl-1'
+                >
+                    {label}
+                </label>
+            )}
+            <div className="relative">
+                <select
+                    {...props}
+                    id={id}
+                    ref={ref}
+                    className={`
+                        w-full 
+                        px-4 
+                        py-3 
+                        rounded-lg 
+                        bg-gray-50 
+                        text-gray-900 
+                        border 
+                        border-gray-200 
+                        outline-none 
+                        appearance-none
+                        cursor-pointer
+                        transition-all 
+                        duration-200
+                        focus:bg-white 
+                        focus:border-black 
+                        focus:ring-1 
+                        focus:ring-black
+                        ${className}
+                    `}
+                >
+                    {options?.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                </select>
+                
+                {/* Custom Chevron Arrow for consistent cross-browser look */}
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                    <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default React.forwardRef(Select)
