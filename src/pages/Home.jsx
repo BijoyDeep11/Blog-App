@@ -1,44 +1,64 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config"
-import { Container,PostCard } from '../components'
+import { Container, PostCard } from '../components'
+
 function Home() {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
-        appwriteService.getPosts().then((posts) =>{
-            if (posts){
+        appwriteService.getPosts().then((posts) => {
+            if (posts) {
                 setPosts(posts.documents)
             }
         })
     }, [])
-  if (posts.length === 0){
-    return (
-         <div className="w-full py-8 mt-4 text-center">
+
+    if (posts.length === 0) {
+        return (
+            <div className="w-full min-h-[60vh] flex items-center bg-gray-50/50">
                 <Container>
-                    <div className="flex flex-wrap">
-                        <div className="p-2 w-full">
-                            <h1 className="text-2xl font-bold hover:text-gray-500">
-                                Login to read posts
-                            </h1>
+                    <div className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
+                        {/* Decorative Icon or Element */}
+                        <div className="mb-6 opacity-80">
+                            <span className="text-4xl">✒️</span>
                         </div>
+                        
+                        {/* Classic Serif Headline */}
+                        <h1 className="font-serif text-5xl md:text-6xl text-gray-900 mb-6 leading-tight tracking-tight">
+                            Publish your passions, <br />
+                            <span className="italic text-gray-600">your way.</span>
+                        </h1>
+
+                        {/* Modern Sans Subtitle */}
+                        <p className="font-sans text-lg text-gray-500 mb-8 max-w-lg leading-relaxed">
+                            Create a unique and beautiful blog. It’s easy and free. 
+                            Login now to start reading the latest stories.
+                        </p>
                     </div>
                 </Container>
             </div>
-    )
-  }
-  return (
-   <div className="w-full py-8">
-    <Container>
-                <div className='flex flex-wrap'>
+        )
+    }
+
+    return (
+        <div className="w-full py-16 bg-white">
+            <Container>
+                {/* Section Header */}
+                <div className="mb-12 border-b border-gray-200 pb-4">
+                   <h2 className="font-serif text-3xl text-gray-900">Latest Writings</h2>
+                </div>
+
+                {/* The Grid: Switched from Flex w-1/4 to CSS Grid for better responsiveness */}
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={post.$id} className='h-full'>
                             <PostCard {...post} />
                         </div>
                     ))}
                 </div>
             </Container>
-   </div>
-  )
+        </div>
+    )
 }
 
 export default Home
