@@ -2,3 +2,28 @@
 body {
   @apply bg-white text-gray-900;
 }
+/* 1. LOCK THE VIEWPORT */
+/* 1. RESET BOX SIZING */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. ALLOW SCROLLING BUT HIDE THE BAR */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Stop horizontal scroll */
+  /* Remove 'overflow: hidden' here so the page can actually move! */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
