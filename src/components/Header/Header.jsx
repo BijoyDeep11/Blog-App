@@ -36,29 +36,45 @@ function Header() {
   },
     ] 
   return (
-    <header className="bg-white shadow-sm">
-     <Container>
-        <nav className='flex'>
-            <div className='mr-4'>
-                <Link to="/">
-                <Logo width = '70px' />
-                </Link>
-            </div>
-            <ul className='flex ml-auto'>
-                {naItems.map((item) =>
-                 item.active ? (
-                    <li key = {item.name}>
-                        <button onClick={() => navigate(item.slug)} className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'>{item.name}</button>
-                    </li>
-                 ): null)}
-                 {authStatus && (
-                    <li>
-                        <LogoutBtn />
-                    </li>
-                 )}
-            </ul>
+    <header className='sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md transition-all'>
+      <Container>
+        <nav className='flex items-center justify-between py-4'>
+          {/* Logo Section */}
+          <div className='flex items-center'>
+            <Link to='/' className="flex items-center gap-2 group">
+              {/* Added a subtle hover effect to the logo container */}
+              <div className="group-hover:opacity-80 transition-opacity">
+                <Logo width='70px' />
+              </div>
+            </Link>
+          </div>
+
+          {/* Navigation Links */}
+          <ul className='flex ml-auto items-center gap-6'>
+            {naItems.map((item) => 
+              item.active ? (
+                <li key={item.name}>
+                  <button
+                    onClick={() => navigate(item.slug)}
+                    className='relative font-medium text-sm tracking-wide text-gray-600 transition-colors duration-300 hover:text-black group'
+                  >
+                    {item.name}
+                    {/* The Animated Underline - This is the "Modern" touch */}
+                    <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+                  </button>
+                </li>
+              ) : null
+            )}
+
+            {/* Logout Button Wrapper - Ensuring it aligns perfectly */}
+            {authStatus && (
+              <li className='ml-4'>
+                <LogoutBtn />
+              </li>
+            )}
+          </ul>
         </nav>
-        </Container>
+      </Container>
     </header>   
   )
 }
