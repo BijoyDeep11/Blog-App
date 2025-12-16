@@ -11,8 +11,15 @@ function LogoutBtn() {
     })
   }
   return (
-  <button className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full' onClick={logoutHandler}>Logout</button>
-  )
+        <button
+            className='relative font-medium text-sm tracking-wide text-gray-600 transition-colors duration-300 hover:text-black group'
+            onClick={logoutHandler}
+        >
+            Logout
+            {/* The Magic Underline Animation (Same as your Navbar links) */}
+            <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
+        </button>
+    )
 }
 
 export default LogoutBtn
