@@ -130,6 +130,16 @@ export class Service{
             fileId
         )
     }
+
+    // 🌟 ADDED THIS NEW FUNCTION 🌟
+    // This gets the original file without server-side resizing
+    // Use this to fix the 403 "transformations blocked" error.
+    getFileView(fileId){
+        return this.bucket.getFileView(
+            conf.appwriteBucketId,
+            fileId
+        )
+    }
 }
 
 
