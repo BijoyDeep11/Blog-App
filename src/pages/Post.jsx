@@ -60,7 +60,7 @@ export default function Post() {
                 {/* 2. CINEMATIC HERO IMAGE */}
                 <div className="w-full max-w-5xl mx-auto mb-12 relative shadow-lg rounded-2xl overflow-hidden">
                     <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
+                        src={appwriteService.getFileView(post.featuredImage)}
                         alt={post.title}
                         className="w-full h-auto max-h-[600px] object-cover"
                     />
