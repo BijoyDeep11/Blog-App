@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config"
 import { Container, PostCard } from '../components'
-
+import { Link } from 'react-router-dom'
 function Home() {
     const [posts, setPosts] = useState([])
 
@@ -31,8 +31,14 @@ function Home() {
 
                         {/* Modern Sans Subtitle */}
                         <p className="font-sans text-lg text-gray-500 mb-8 max-w-lg leading-relaxed">
-                            Create a unique and beautiful blog. It’s easy and free. 
-                            Login now to start reading the latest stories.
+                            Create a unique and beautiful blog. It’s easy and free.{" "}
+                            <Link 
+                                to="/login"
+                                className="font-bold text-gray-900 underline decoration-2 underline-offset-4 hover:text-black hover:decoration-black transition-all"
+                            >
+                                Login
+                            </Link>
+                            {" "}to start reading the latest stories.
                         </p>
                     </div>
                 </Container>
