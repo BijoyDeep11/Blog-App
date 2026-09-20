@@ -16,7 +16,7 @@
 
 This project demonstrates a modern **Service-Oriented Architecture** in React, separating UI components from backend logic for better maintainability and scalability.
 
-🔗 **Live Demo:** [Insert Your Vercel Link Here]
+🔗 **Live Demo:** blog-2f1x2fnfi-bijoy-deep-ghoshs-projects.vercel.app
 
 ---
 
